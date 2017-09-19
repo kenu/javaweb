@@ -1,6 +1,7 @@
 package simpleboard;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class SimpleBoard {
@@ -12,7 +13,14 @@ public class SimpleBoard {
     }
 
     public Article get(long l) {
-        return new Article();
+        Iterator<Article> it = store.iterator();
+        while (it.hasNext()) {
+            Article art = it.next();
+            if (art.getId() == l) {
+                return art;
+            }
+        }
+        return null;
     }
 
     public long size() {
@@ -20,11 +28,25 @@ public class SimpleBoard {
     }
 
     public boolean delete(long l) {
-        return true;
+        Iterator<Article> it = store.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId() == l) {
+                it.remove();
+                return true;
+            }
+        }
+        return false;
     }
 
     public void update(Article article2) {
-
+        Iterator<Article> it = store.iterator();
+        while (it.hasNext()) {
+            if (it.next().getId() == article2.getId()) {
+                it.remove();
+                break;
+            }
+        }
+        store.add(article2);
     }
 
     public List<Article> getList() {
