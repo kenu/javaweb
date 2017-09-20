@@ -6,6 +6,12 @@ public class Article {
     private String title;
     private String content;
 
+    public Article(long id, String writer, String title, String content) {
+        this.id = id;
+        this.writer = writer;
+        this.title = title;
+        this.content = content;
+    }
     public long getId() {
         return id;
     }

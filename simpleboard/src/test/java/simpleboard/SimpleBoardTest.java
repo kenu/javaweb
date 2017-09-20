@@ -6,39 +6,23 @@ import junit.framework.TestCase;
 
 public class SimpleBoardTest extends TestCase {
 	public void testAdd() {
-		Article article = new Article();
-		article.setId(1L);
-		article.setWriter("kenu");
-		article.setTitle("title");
-		article.setContent("content");
-
+		Article article = new Article(1L, "kenu", "title", "content");
 		SimpleBoard simpleBoard = new SimpleBoard();
 		boolean result = simpleBoard.add(article);
 		assertTrue(result);
 	}
 
 	public void testGet() {
-		Article article = new Article();
-		article.setId(2L);
-		article.setWriter("kenu");
-		article.setTitle("title");
-		article.setContent("content");
-
+		Article article = new Article(2L, "kenu", "title", "content");
 		SimpleBoard simpleBoard = new SimpleBoard();
 		simpleBoard.add(article);
-
 		Article article2 = simpleBoard.get(2L);
 		assertEquals(article.getWriter(), article2.getWriter());
 
 	}
 
 	public void testDelete() {
-		Article article = new Article();
-		article.setId(1L);
-		article.setWriter("kenu");
-		article.setTitle("title");
-		article.setContent("content");
-
+		Article article = new Article(1L, "kenu", "title", "content");
 		SimpleBoard simpleBoard = new SimpleBoard();
 		simpleBoard.add(article);
 
@@ -50,12 +34,7 @@ public class SimpleBoardTest extends TestCase {
 	}
 
 	public void testUpdate() {
-		Article article = new Article();
-		article.setId(1L);
-		article.setWriter("kenu");
-		article.setTitle("title");
-		article.setContent("content");
-
+		Article article = new Article(1L, "kenu", "title", "content");
 		SimpleBoard simpleBoard = new SimpleBoard();
 		boolean result = simpleBoard.add(article);
 		assertTrue(result);
@@ -70,18 +49,10 @@ public class SimpleBoardTest extends TestCase {
 	}
 
 	public void testGetList() {
-		Article article = new Article();
-		article.setId(1L);
-		article.setWriter("kenu");
-		article.setTitle("title");
-		article.setContent("content");
+		Article article = new Article(1L, "kenu", "title", "content");
 
-		Article article2 = new Article();
-		article2.setId(2L);
-		article2.setWriter("kenu2");
-		article2.setTitle("title2");
-		article2.setContent("content2");
-		
+		Article article2 = new Article(2L, "kenu", "title", "content");
+
 		SimpleBoard simpleBoard = new SimpleBoard();
 		boolean result = simpleBoard.add(article);
 		assertTrue(result);
