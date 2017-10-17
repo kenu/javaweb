@@ -1,10 +1,13 @@
-package simpleboard;
+package photogallery;
 
 public class Article implements Cloneable {
     private long id;
     private String writer;
     private String title;
     private String content;
+    private String filename;
+    private String saveName;
+    private long fileSize;
 
     public long getId() {
         return id;
@@ -36,6 +39,30 @@ public class Article implements Cloneable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getSaveName() {
+        return saveName;
+    }
+
+    public void setSaveName(String saveName) {
+        this.saveName = saveName;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 
     @Override
