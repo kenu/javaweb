@@ -30,7 +30,7 @@
         <tr>
             <td class="writer"><%= article.getWriter() %>
             </td>
-            <td class="title"><a href="add.action?id=<%= article.getId() %>"><%= article.getTitle() %>
+            <td class="title"><a href="update.action?id=<%= article.getId() %>"><%= article.getTitle() %>
             </a></td>
             <td class="content"><%= article.getContent() %>
             </td>
@@ -39,7 +39,14 @@
             <td colspan="3">
                 <%= article.getContent() %>
                 <br>
+                <% if(article.getSaveName() != null) {%>
                 <img src="/image.action?<%= article.getSaveName() %>" class="thumb"/>
+                <%}%>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <a href = "delete.action?id=<%=article.getId()%>">Delete</a>
             </td>
         </tr>
         <%

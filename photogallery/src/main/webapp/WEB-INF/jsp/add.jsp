@@ -19,9 +19,13 @@
         <textarea id="content" name="content"
                   required class="form">${article.content}</textarea>
         <br>
+        <% if(article.getSaveName() != null) {%>
+        <img src="/image.action?<%= article.getSaveName() %>" class="thumb"/>
+        <%}%>
         <input id="file" name="file" type="file" placeholder="image file" required>
         <br>
-        <input type="submit" value="${action}">
+        <input type ="hidden" name="id" value="${article.id}">
+        <input type="submit" name="action" value="${action}">
     </form>
 </div>
 </body>

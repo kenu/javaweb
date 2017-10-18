@@ -24,18 +24,30 @@ public class PhotoGalleryController {
     @RequestMapping("/index")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
+
         modelAndView.addObject("list", board.getList());
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(HttpServletRequest request, @RequestParam("id") long id) {
-        String actionState = "Add";
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(HttpServletRequest request, @RequestParam("id") long id) {
+        String actionState = "Update";
         if (id > 0) {
             request.setAttribute("article", board.get(id));
-            actionState = "Update";
         }
+        request.setAttribute("action", actionState);
+        return "add";
+    }
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("id") long id) {
+        board.delete(id);
+        return "redirect:/index.action";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(HttpServletRequest request) {
+        String actionState = "Add";
         request.setAttribute("action", actionState);
         return "add";
     }
@@ -44,29 +56,31 @@ public class PhotoGalleryController {
     public void image(HttpServletRequest request, HttpServletResponse response) {
         String saveName = request.getQueryString();
 
-        File f=new File(basePath + saveName);
-        InputStream is = null;
-        try {
-            is = new FileInputStream(f);
-            OutputStream oos = response.getOutputStream();
+        if (saveName!=null) {
+            File f = new File(basePath + saveName);
+            InputStream is = null;
+            try {
+                is = new FileInputStream(f);
+                OutputStream oos = response.getOutputStream();
 
-            byte[] buf = new byte[8192];
-            int c = 0;
-            while ((c = is.read(buf, 0, buf.length)) > 0) {
-                oos.write(buf, 0, c);
-                oos.flush();
+                byte[] buf = new byte[8192];
+                int c = 0;
+                while ((c = is.read(buf, 0, buf.length)) > 0) {
+                    oos.write(buf, 0, c);
+                    oos.flush();
+                }
+                oos.close();
+                is.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            oos.close();
-            is.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addTo(Article article, @RequestParam("file") MultipartFile file) {
+    public String addTo(Article article, @RequestParam("file") MultipartFile file, String action) {
         String saveName = String.valueOf(new Date().getTime());
 
         OutputStream fos = null;
@@ -88,7 +102,13 @@ public class PhotoGalleryController {
         article.setSaveName(saveName);
         article.setFileSize(file.getSize());
 
-        board.add(article);
+
+        if ("update".equalsIgnoreCase(action)) {
+            board.update(article);
+        } else if ("add".equalsIgnoreCase(action)) {
+            board.add(article);
+        }
+
         return "redirect:/index.action";
     }
 
