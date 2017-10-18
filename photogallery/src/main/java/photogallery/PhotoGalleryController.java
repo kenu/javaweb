@@ -29,13 +29,19 @@ public class PhotoGalleryController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String add(HttpServletRequest request, @RequestParam("id") long id) {
-        String actionState = "Add";
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String update(HttpServletRequest request, @RequestParam("id") long id) {
+        String actionState = "Update";
         if (id > 0) {
             request.setAttribute("article", board.get(id));
-            actionState = "Update";
         }
+        request.setAttribute("action", actionState);
+        return "add"; // FIXME : This will add another board entry. Fix update.
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add(HttpServletRequest request) {
+        String actionState = "Add";
         request.setAttribute("action", actionState);
         return "add";
     }
@@ -44,7 +50,7 @@ public class PhotoGalleryController {
     public void image(HttpServletRequest request, HttpServletResponse response) {
         String saveName = request.getQueryString();
 
-        File f=new File(basePath + saveName);
+        File f = new File(basePath + saveName);
         InputStream is = null;
         try {
             is = new FileInputStream(f);

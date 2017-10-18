@@ -30,7 +30,7 @@
         <tr>
             <td class="writer"><%= article.getWriter() %>
             </td>
-            <td class="title"><a href="add.action?id=<%= article.getId() %>"><%= article.getTitle() %>
+            <td class="title"><a href="update.action?id=<%= article.getId() %>"><%= article.getTitle() %>
             </a></td>
             <td class="content"><%= article.getContent() %>
             </td>
