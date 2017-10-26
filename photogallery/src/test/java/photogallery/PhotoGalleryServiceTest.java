@@ -105,7 +105,7 @@ public class PhotoGalleryServiceTest extends TestCase {
     @Test
     public void testGetSize() {
         int size = photoGalleryService.getList().size();
-        assertTrue(size > 0);
+        assertTrue(size == 0);
     }
 
 }
