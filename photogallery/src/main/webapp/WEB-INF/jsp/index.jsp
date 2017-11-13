@@ -42,7 +42,7 @@
             <td colspan="4">
                 <%= article.getContent() %>
                 <br>
-                <img src="/image.action?<%= article.getSaveName() %>" class="thumb"/>
+                <img src="/image.action?<%= article.getSaveName() + "th" %>" class="thumb"/>
             </td>
         </tr>
         <%

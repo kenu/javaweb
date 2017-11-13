@@ -1,5 +1,6 @@
 package photogallery;
 
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Date;
 
@@ -86,6 +89,7 @@ public class PhotoGalleryController {
             fos = new FileOutputStream(basePath + File.separator + saveName);
 
             fos.write(file.getBytes());
+            makeThumbnail(basePath + File.separator + saveName);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -100,6 +104,23 @@ public class PhotoGalleryController {
         article.setFilename(file.getOriginalFilename());
         article.setSaveName(saveName);
         article.setFileSize(file.getSize());
+    }
+
+    private void makeThumbnail(String path) {
+        File file = new File(path);
+        InputStream input;
+        try {
+            input = new FileInputStream(file);
+            BufferedImage buff = ImageIO.read(input);
+            BufferedImage thumbnailBuff = Scalr.resize(buff,
+                    Scalr.Method.QUALITY, 360, 360);
+            File thumbnailFile = new File(path + "th");
+            ImageIO.write(thumbnailBuff, "jpg", thumbnailFile);
+            input.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -125,11 +146,13 @@ public class PhotoGalleryController {
     private void deleteFile(String saveName) {
         // create File instance
         File f = new File(basePath + saveName);
+        File fth = new File(basePath + saveName + "th");
 
         // check exist
         if (f.exists()) {
             // delete
             f.delete();
+            fth.delete();
         }
     }
 
